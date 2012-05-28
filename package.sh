@@ -12,5 +12,5 @@ cp boot.img package_tree
 rm zImage
 find ../compat-wireless-2012-04-26/ -name "*.ko" -exec cp {} package_tree/system/etc/awmon_modules/ \;
 cd package_tree
-zip -r ../sgsII_awmon.zip *
+zip -r ../sgs2_awmon.zip *
 cd ../
