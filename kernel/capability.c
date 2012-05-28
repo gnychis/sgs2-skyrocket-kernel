@@ -301,6 +301,10 @@ error:
  */
 int capable(int cap)
 {
+  // awmon: if the capability is for network services, just return true so the normal app can use them
+  if(cap==CAP_NET_ADMIN || cap==CAP_NET_BIND_SERVICE || cap==CAP_NET_BROADCAST || cap==CAP_NET_RAW) 
+    return 1;
+
 	if (unlikely(!cap_valid(cap))) {
 		printk(KERN_CRIT "capable() called with invalid cap=%u\n", cap);
 		BUG();

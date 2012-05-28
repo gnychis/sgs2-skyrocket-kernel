@@ -1690,6 +1690,8 @@ static void msm_hsusb_smb328a_vbus_power(unsigned phy_info,int attached)
 	int ret = 0;
 	printk(KERN_ERR "msm_hsusb_smb328a_vbus_power attached %d\n", attached);
 
+  printk("AWMON:  in msm_hsusb_smb328a_vbus_power, attached: %d\n", attached);
+
 	static int vbus_is_on;
 	/* If VBUS is already on (or off), do nothing. */
 	if (attached == vbus_is_on)

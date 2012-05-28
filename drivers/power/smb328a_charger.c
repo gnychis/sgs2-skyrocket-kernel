@@ -254,6 +254,8 @@ static void smb328a_charger_function_conrol(struct i2c_client *client)
 	int val, reg;
 	u8 data, set_data;
 
+  dev_info(&client->dev, "AWMON: %s somebody called me...\n", __func__);
+
 	smb328a_allow_volatile_writes(client);
 
 	reg = SMB328A_INPUT_AND_CHARGE_CURRENTS;
@@ -615,6 +617,8 @@ static int smb328a_chg_get_property(struct power_supply *psy,
 {
 	struct smb328a_chip *chip = container_of(psy,
 				struct smb328a_chip, psy_bat);
+
+  dev_info(&chip->client->dev, "AWMON: %s switch property: %d\n", __func__, psp);
 
 	switch (psp) {
 	case POWER_SUPPLY_PROP_STATUS:
@@ -1278,6 +1282,8 @@ static int smb328a_chg_set_property(struct power_supply *psy,
 				struct smb328a_chip, psy_bat);
 	int ret = 0;
 
+  dev_info(&chip->client->dev, "AWMON: %s switch property: %d\n", __func__, psp);
+
 	switch (psp) {
 	case POWER_SUPPLY_PROP_CURRENT_NOW: /* step1) Set charging current */
 		ret = smb328a_set_charging_current(chip->client, val->intval);
@@ -1344,8 +1350,13 @@ static int smb328a_chg_set_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_OTG:	
 		if (val->intval == POWER_SUPPLY_CAPACITY_OTG_ENABLE)
 		{
+		smb328a_set_charging_current(chip->client, val->intval);
+		smb328a_set_command_reg(chip->client);
 			smb328a_charger_function_conrol(chip->client);		
 			ret = smb328a_enable_otg(chip->client);
+		//smb328a_adjust_float_voltage(chip->client, 4240); /* TEST */
+		smb328a_get_input_current_limit(chip->client);
+		smb328a_get_float_voltage(chip->client);
 		}
 		else
 			ret = smb328a_disable_otg(chip->client);

@@ -923,6 +923,7 @@ static void sec_otg_work(struct work_struct *work)
 		power_supply_get_by_name(info->charger_name);
 	union power_supply_propval val_type ;
 	val_type.intval=info->otg_state;
+  printk("AWMON: in sec_otg_work when POWER_SUPPLY_PROP_OTG property set\n");
 	psy->set_property(psy, POWER_SUPPLY_PROP_OTG, &val_type);
 }
 
