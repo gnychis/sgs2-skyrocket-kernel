@@ -724,6 +724,7 @@ static int msm_otg_suspend(struct msm_otg *dev)
 	 * 4. peripheral is supported, but, vbus is not routed to pmic
 	 */
 	host_bus_suspend = dev->otg.host && is_host();
+	pr_info("%s: host_bus_suspend is: %d ... dev->otg.host: %d and is_host(): %d\n", __func__, host_bus_suspend, dev->otg.host, is_host());
 	if ((dev->otg.gadget && chg_type == USB_CHG_TYPE__WALLCHARGER) ||
 		host_bus_suspend ||
 		(dev->otg.host && !dev->pmic_id_notif_supp) ||
